@@ -3,14 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leer en Speel – Graad 2</title>
-<meta name="description" content="Interaktiewe leerapp vir Graad 2 leerders – taal, wiskunde en belonings.">
+<title>Speel-Slim – Graad 2</title>
+<meta name="description" content="Interaktiewe leerapp vir Graad 2 leerders.">
 <meta name="theme-color" content="#6c47d9">
-<link rel="manifest" href="manifest.json">
 <style>
-/* ============================================================
-   VERANDERLIKES & GRONDWERK
-============================================================ */
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --pers:#6c47d9;--pers-lig:#ede9ff;--pers-mid:#c4b5fd;
@@ -21,39 +17,52 @@
   --geel:#ca8a04;--geel-lig:#fef9c3;
   --pienk:#db2777;--pienk-lig:#fce7f3;
   --ink:#1e1b4b;--sagte:#f5f3ff;--grys:#64748b;--rand:#e2e8f0;
-  --agtergrond:#f8f7ff;
-  --skaduw:0 2px 8px rgba(0,0,0,.08);
+  --agtergrond:#f8f7ff;--skaduw:0 2px 8px rgba(0,0,0,.08);
 }
 body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:var(--ink);min-height:100vh;padding-bottom:40px;}
-
-/* ============================================================
-   SKERMS
-============================================================ */
 .skerm{display:none;max-width:900px;margin:0 auto;padding:16px;}
 .skerm.aktief{display:block;}
 #sigwoord-skerm{display:none;position:fixed;inset:0;z-index:50;background:linear-gradient(160deg,#1e1b4b,#312e81);flex-direction:column;align-items:center;justify-content:flex-start;max-width:none;padding:0;}
 #sigwoord-skerm.aktief{display:flex;}
 
-/* ============================================================
-   NAVIGASIE
-============================================================ */
+/* LOGIN */
+#login-skerm{position:fixed;inset:0;background:linear-gradient(160deg,#1e1b4b,#4c1d95,#6c47d9);display:flex;align-items:center;justify-content:center;z-index:500;overflow-y:auto;}
+#login-skerm.weg{display:none;}
+.login-kaart{background:white;border-radius:28px;padding:36px 28px;max-width:420px;width:calc(100% - 32px);text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.3);margin:16px auto;}
+.login-uil{font-size:64px;margin-bottom:6px;display:block;}
+.login-kaart h1{font-size:24px;font-weight:800;color:var(--ink);margin-bottom:4px;}
+.login-kaart .sub{font-size:13px;color:var(--grys);margin-bottom:20px;}
+.login-stap{margin-bottom:18px;text-align:left;}
+.login-stap label{font-size:12px;font-weight:700;color:var(--grys);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;}
+.login-invoer{width:100%;padding:13px 16px;font-size:18px;font-weight:700;text-align:center;border:3px solid var(--rand);border-radius:14px;outline:none;color:var(--ink);transition:border-color .2s;}
+.login-invoer:focus{border-color:var(--pers);}
+.avatar-rooster{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+.avatar-opsie{font-size:32px;padding:8px;border-radius:12px;border:3px solid var(--rand);background:white;cursor:pointer;transition:all .15s;text-align:center;}
+.avatar-opsie:hover{border-color:var(--pers-mid);transform:scale(1.08);}
+.avatar-opsie.gekies{border-color:var(--pers);background:var(--pers-lig);transform:scale(1.1);}
+.login-knp{width:100%;padding:14px;background:var(--pers);color:white;border:none;border-radius:14px;font-size:17px;font-weight:700;cursor:pointer;margin-top:6px;}
+.login-knp:hover{background:#5b3cc4;}
+.bestaande-spelers{margin-top:18px;padding-top:16px;border-top:1px solid var(--rand);}
+.bestaande-spelers p{font-size:11px;color:var(--grys);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;font-weight:700;}
+.speler-knoppies{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
+.speler-chip{background:var(--sagte);border:2px solid var(--pers-mid);color:var(--pers);border-radius:30px;padding:6px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;}
+.speler-chip:hover{background:var(--pers-lig);}
+
+/* NAV */
 .top-nav{background:var(--pers);color:white;padding:0 16px;display:flex;align-items:center;gap:10px;height:52px;position:sticky;top:0;z-index:40;box-shadow:0 2px 8px rgba(108,71,217,.3);}
 .top-nav-titel{font-size:17px;font-weight:700;flex:1;}
 .dag-pil{background:rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;}
 .nav-knp{background:rgba(255,255,255,.15);border:none;color:white;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;white-space:nowrap;}
 .nav-knp:hover{background:rgba(255,255,255,.28);}
+.nav-avatar{font-size:22px;cursor:pointer;}
 
-/* ============================================================
-   KAARTE & ROOSTERS
-============================================================ */
+/* KAARTE */
 .kaart{background:white;border-radius:16px;padding:20px;box-shadow:var(--skaduw);margin-bottom:14px;border:1px solid rgba(108,71,217,.06);}
-.kaart h3{font-size:15px;font-weight:700;margin-bottom:12px;color:var(--ink);}
+.kaart h3{font-size:15px;font-weight:700;margin-bottom:12px;}
 .rooster-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .rooster-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 
-/* ============================================================
-   SPEL-KAART KNOPPE (tuis-skerm)
-============================================================ */
+/* SPEL KAARTE */
 .spel-kaart-knp{background:white;border-radius:16px;padding:16px 12px;text-align:center;cursor:pointer;border:2px solid var(--rand);transition:border-color .15s,transform .15s;box-shadow:var(--skaduw);}
 .spel-kaart-knp:hover{border-color:var(--pers-mid);transform:translateY(-2px);}
 .spel-kaart-knp.geblokkeer{opacity:.45;cursor:not-allowed;pointer-events:none;}
@@ -66,9 +75,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
 .dot.vandag{background:var(--pers);animation:pols 1.5s infinite;}
 @keyframes pols{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* ============================================================
-   WEEK KALENDER
-============================================================ */
+/* WEEK KAL */
 .week-kal{display:flex;gap:6px;margin-bottom:14px;}
 .dag-blk{flex:1;border-radius:10px;padding:7px 3px;text-align:center;border:2px solid var(--rand);background:white;font-size:10px;}
 .dag-blk.aktief-dag{border-color:var(--pers);background:var(--pers-lig);}
@@ -78,15 +85,11 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
 .dag-blk .dg{font-size:16px;font-weight:800;margin:2px 0;}
 .dag-blk .di{font-size:13px;}
 
-/* ============================================================
-   STERRE BALK
-============================================================ */
+/* STERRE BALK */
 .sterre-balk{display:flex;align-items:center;gap:8px;background:white;padding:10px 16px;border-radius:50px;margin-bottom:16px;font-size:13px;font-weight:700;box-shadow:var(--skaduw);flex-wrap:wrap;}
 .sb-item{display:flex;align-items:center;gap:4px;color:var(--ink);}
 
-/* ============================================================
-   SIGWOORDE
-============================================================ */
+/* SIGWOORDE */
 .sig-kop{width:100%;display:flex;align-items:center;gap:10px;padding:14px 20px;background:rgba(0,0,0,.2);}
 .sig-kop h2{color:white;font-size:16px;font-weight:700;flex:1;}
 .sig-progress{color:rgba(255,255,255,.7);font-size:13px;}
@@ -104,9 +107,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
 .sig-knp.w{background:white;color:var(--pers);}
 .sig-knp.t{background:rgba(255,255,255,.15);color:white;}
 
-/* ============================================================
-   SPELWOORD OEFENING
-============================================================ */
+/* SPEL OEFENING */
 .spel-letter-ry{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;margin:14px 0;}
 .sp-letter{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:8px;font-size:22px;font-weight:700;background:var(--sagte);border:2px solid var(--pers-mid);color:var(--ink);}
 .sp-invoer-hou{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:8px;border:3px solid var(--pers);background:white;}
@@ -119,9 +120,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
 .spel-terugvoer.goed{color:var(--groen);}
 .spel-terugvoer.sleg{color:var(--rooi);}
 
-/* ============================================================
-   TOETS
-============================================================ */
+/* TOETS */
 .toets-invoer{width:100%;font-size:20px;font-weight:700;padding:12px 14px;border:3px solid var(--rand);border-radius:12px;outline:none;text-align:center;color:var(--ink);background:white;}
 .toets-invoer:focus{border-color:var(--pers);}
 .toets-invoer.korrek{border-color:var(--groen);background:var(--groen-lig);}
@@ -130,9 +129,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
 .toets-tv.goed{color:var(--groen);}
 .toets-tv.sleg{color:var(--rooi);}
 
-/* ============================================================
-   WISKUNDE SPEL
-============================================================ */
+/* WISKUNDE SPEL */
 .spel-kop-balk{width:100%;max-width:700px;display:flex;align-items:center;gap:8px;margin-bottom:14px;padding-top:8px;}
 .vord-balk{flex:1;height:8px;background:var(--rand);border-radius:8px;overflow:hidden;}
 .vord-vul{height:100%;background:linear-gradient(90deg,var(--pers),var(--pienk));border-radius:8px;transition:width .4s;}
@@ -176,9 +173,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
 .woordsom-blk{background:var(--sagte);border-radius:12px;padding:12px;font-size:15px;color:var(--ink);font-weight:600;margin-bottom:12px;text-align:left;line-height:1.6;border:1px solid var(--pers-mid);}
 .hor-gesig{width:130px;height:130px;margin:10px auto 14px;display:block;}
 
-/* ============================================================
-   UITSLAE
-============================================================ */
+/* UITSLAE */
 .uitslae-held{text-align:center;padding:28px 16px 16px;}
 .uitslae-held .u-emoji{font-size:68px;line-height:1;}
 .uitslae-held h2{font-size:24px;font-weight:800;margin-top:10px;}
@@ -190,9 +185,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
 .woordlys-res-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--rand);}
 .woordlys-res-item:last-child{border-bottom:none;}
 
-/* ============================================================
-   MEDALJE & PLAKKERS
-============================================================ */
+/* MEDALJE & PLAKKERS */
 .medalje-rooster{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
 .medalje-kaart{border-radius:16px;padding:14px 8px;text-align:center;box-shadow:var(--skaduw);}
 .medalje-kaart.brons{background:linear-gradient(135deg,#ffedd5,#fed7aa);}
@@ -213,9 +206,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
 .prestasie-ry{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;}
 .prestasie-badge{background:var(--pers-lig);color:var(--pers);border-radius:20px;padding:6px 11px;font-size:11px;font-weight:700;}
 
-/* ============================================================
-   WINKEL, EILANDE, KOEPONS
-============================================================ */
+/* WINKEL, EILANDE, KOEPONS */
 .winkel-rooster,.eiland-rooster,.koepon-rooster{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .winkel-kaart,.eiland-kaart,.koepon-kaart{background:white;border:2px solid var(--rand);border-radius:16px;padding:14px;box-shadow:var(--skaduw);}
 .winkel-kaart.toegerus{border-color:var(--groen);}
@@ -225,9 +216,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
 .winkel-kaart p,.eiland-kaart p,.koepon-kaart p{font-size:11px;color:var(--grys);margin:3px 0 8px;line-height:1.4;}
 .eiland-kaart .vlak-chip{display:inline-block;background:var(--pers-lig);color:var(--pers);border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700;margin-bottom:5px;}
 
-/* ============================================================
-   TELTABEL
-============================================================ */
+/* TELTABEL */
 .teltabel-rooster{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;}
 .tt-getal{border:0;border-radius:10px;min-height:44px;font-size:16px;font-weight:800;cursor:pointer;transition:transform .12s,opacity .12s;box-shadow:0 3px 8px rgba(0,0,0,.07);color:var(--ink);}
 .tt-getal:hover{transform:translateY(-2px);}
@@ -236,9 +225,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
 .teltabel-pil{border:0;border-radius:20px;padding:8px 14px;font-weight:700;cursor:pointer;background:var(--pers-lig);color:var(--pers);font-size:12px;margin:3px;}
 .teltabel-pil.aktief{background:var(--pers);color:white;}
 
-/* ============================================================
-   ADMIN
-============================================================ */
+/* ADMIN */
 .admin-afd{background:white;border-radius:16px;padding:18px;margin-bottom:12px;box-shadow:var(--skaduw);}
 .admin-afd h3{font-size:14px;font-weight:700;margin-bottom:12px;}
 .woord-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--rand);}
@@ -251,9 +238,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
 .prentjie-min{width:44px;height:44px;border-radius:8px;object-fit:cover;border:2px solid var(--rand);}
 .upload-knp{font-size:11px;color:var(--pers);cursor:pointer;text-decoration:underline;background:none;border:none;padding:0;}
 
-/* ============================================================
-   INVOERE & KNOPPE
-============================================================ */
+/* INVOERE & KNOPPE */
 .inv{width:100%;padding:9px 12px;border:2px solid var(--rand);border-radius:10px;font-size:14px;outline:none;color:var(--ink);background:white;}
 .inv:focus{border-color:var(--pers);}
 .knp{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:9px 16px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:none;}
@@ -275,22 +260,21 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
 .vordering-balk-hou{width:100%;background:var(--rand);border-radius:4px;height:6px;margin-bottom:14px;}
 .vordering-balk-vul{height:100%;background:var(--pers);border-radius:4px;transition:width .4s;}
 
-/* ============================================================
-   PIN LAAG
-============================================================ */
+/* PIN LAAG */
 .pin-laag{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:300;}
 .pin-blk{background:white;border-radius:20px;padding:26px 22px;max-width:320px;width:calc(100% - 32px);text-align:center;}
 .pin-blk h3{font-size:17px;font-weight:700;margin-bottom:14px;}
 
-/* ============================================================
-   KONFETTI
-============================================================ */
+/* KONFETTI */
 .konfetti-stuk{position:fixed;width:8px;height:8px;top:-10px;animation:val linear forwards;border-radius:2px;pointer-events:none;z-index:999;}
 @keyframes val{to{transform:translateY(110vh) rotate(540deg);opacity:0;}}
 
-/* ============================================================
-   RESPONSIEF
-============================================================ */
+/* DRUK */
+@media print{
+  body > *{display:none !important;}
+  #sert-druk{display:block !important;position:static !important;}
+}
+
 @media(max-width:480px){
   .rooster-2,.rooster-3,.medalje-rooster,.plakker-rooster,.eiland-rooster,.winkel-rooster,.koepon-rooster{grid-template-columns:1fr 1fr;}
   .keuses,.flits-aksies{grid-template-columns:1fr 1fr;}
@@ -299,24 +283,47 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
   .week-kal{gap:3px;}
   .dag-blk .dn{font-size:9px;}
   .dag-blk .dg{font-size:14px;}
+  .avatar-rooster{grid-template-columns:repeat(5,1fr);}
 }
 </style>
 </head>
 <body>
 
-<!-- ============================================================
-     NAVIGASIE
-============================================================ -->
+<!-- LOGIN -->
+<div id="login-skerm">
+  <div class="login-kaart">
+    <span class="login-uil" id="loginUilDisplay">🦉</span>
+    <h1>Speel-Slim!</h1>
+    <p class="sub">Graad 2 Leer &amp; Speel App</p>
+
+    <div class="login-stap">
+      <label>Kies jou avatar</label>
+      <div class="avatar-rooster" id="avatarKiesRooster"></div>
+    </div>
+
+    <div class="login-stap">
+      <label>Tik jou naam</label>
+      <input class="login-invoer" id="loginNaam" type="text" placeholder="Jou naam..." maxlength="20" autocomplete="off">
+    </div>
+
+    <button class="login-knp" onclick="loginLeerder()">Kom ons begin! 🚀</button>
+
+    <div class="bestaande-spelers" id="bestaandeSpelers"></div>
+  </div>
+</div>
+
+<!-- NAV -->
 <div class="top-nav">
-  <span class="top-nav-titel">🦉 Leer en Speel</span>
+  <span class="top-nav-titel">
+    <span id="navAvatar" style="margin-right:6px;"></span>Speel-Slim
+  </span>
   <span class="dag-pil" id="dagPil">Ma</span>
+  <button class="nav-knp" onclick="wissel()">🚪 Wissel</button>
   <button class="nav-knp" onclick="wysAdmin()">🔒 Ouer</button>
   <button class="nav-knp" onclick="naTuis()">🏠 Tuis</button>
 </div>
 
-<!-- ============================================================
-     TUIS SKERM
-============================================================ -->
+<!-- TUIS -->
 <div id="tuis-skerm" class="skerm aktief">
   <div class="week-kal" id="weekKal"></div>
   <div id="week-kennisgewing"></div>
@@ -377,13 +384,10 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
   </div>
   <div class="knp-ry">
     <button class="knp s" onclick="wysVordering()">📊 Vordering</button>
-    <button class="knp s" onclick="naTuis()">🔄 Verfris</button>
   </div>
 </div>
 
-<!-- ============================================================
-     SIGWOORD SKERM
-============================================================ -->
+<!-- SIGWOORD -->
 <div id="sigwoord-skerm" class="skerm">
   <div class="sig-kop">
     <button class="sig-knp t" style="padding:6px 14px;font-size:12px;" onclick="naTuis()">← Terug</button>
@@ -403,9 +407,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
   </div>
 </div>
 
-<!-- ============================================================
-     SPELWOORD OEFENING
-============================================================ -->
+<!-- SPELWOORD OEFENING -->
 <div id="spel-oefen-skerm" class="skerm">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
     <button class="btn-terug" onclick="naTuis()">← Terug</button>
@@ -416,9 +418,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
   <div class="knp-ry" id="spelOefeningKnpRy"></div>
 </div>
 
-<!-- ============================================================
-     TOETS SKERM
-============================================================ -->
+<!-- TOETS -->
 <div id="toets-skerm" class="skerm">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
     <h2 style="font-size:17px;font-weight:800;flex:1;">📝 Donderdag Toets</h2>
@@ -431,9 +431,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
   </div>
 </div>
 
-<!-- ============================================================
-     WISKUNDE SPEL
-============================================================ -->
+<!-- WISKUNDE SPEL -->
 <div id="spel-skerm" class="skerm">
   <div class="spel-kop-balk">
     <button class="btn-terug" onclick="naTuis()">← Tuis</button>
@@ -448,9 +446,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
   </div>
 </div>
 
-<!-- ============================================================
-     UITSLAE
-============================================================ -->
+<!-- UITSLAE -->
 <div id="uitslae-skerm" class="skerm">
   <div class="uitslae-held">
     <div class="u-emoji" id="uitslaeEmoji">🏆</div>
@@ -460,15 +456,17 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
   </div>
   <div id="medaljeUitslae" class="kaart"></div>
   <div class="woordlys-res" id="uitslaeWoordLys"></div>
-  <div class="knp-ry" style="margin-top:14px;">
+  <div id="sert-boodskap" style="text-align:center;font-size:13px;color:var(--grys);margin-top:10px;display:none;">
+    🌟 Jy het 10 uit 10 behaal! Jy kan nou 'n sertifikaat druk of stoor.
+  </div>
+  <div class="knp-ry" style="margin-top:12px;">
     <button class="knp p vol" onclick="naTuis()">🏠 Terug Tuis</button>
-    <button class="knp s vol" id="sertKnp" onclick="drukSert()" disabled>🖨️ Sertifikaat</button>
+    <button class="knp s vol" id="sertDrukKnp" onclick="drukSert()" disabled>🖨️ Druk Sertifikaat</button>
+    <button class="knp s vol" id="sertStoorKnp" onclick="stoorSertPdf()" disabled>💾 Stoor as PDF</button>
   </div>
 </div>
 
-<!-- ============================================================
-     VORDERING
-============================================================ -->
+<!-- VORDERING -->
 <div id="vordering-skerm" class="skerm">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
     <button class="btn-terug" onclick="naTuis()">← Terug</button>
@@ -477,9 +475,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
   <div class="kaart" id="vorderingInhoud"></div>
 </div>
 
-<!-- ============================================================
-     100 TELTABEL
-============================================================ -->
+<!-- 100 TELTABEL -->
 <div id="teltabel-skerm" class="skerm">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
     <button class="btn-terug" onclick="naTuis()">← Terug</button>
@@ -492,9 +488,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
   </div>
 </div>
 
-<!-- ============================================================
-     MEDALJE KAS
-============================================================ -->
+<!-- MEDALJE KAS -->
 <div id="medalje-skerm" class="skerm">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
     <button class="btn-terug" onclick="naTuis()">← Terug</button>
@@ -514,9 +508,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
   </div>
 </div>
 
-<!-- ============================================================
-     PLAKKER ALBUM
-============================================================ -->
+<!-- PLAKKER ALBUM -->
 <div id="plakker-skerm" class="skerm">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
     <button class="btn-terug" onclick="naTuis()">← Terug</button>
@@ -533,9 +525,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
   </div>
 </div>
 
-<!-- ============================================================
-     AVONTUUR KAART
-============================================================ -->
+<!-- AVONTUUR KAART -->
 <div id="kaart-skerm" class="skerm">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
     <button class="btn-terug" onclick="naTuis()">← Terug</button>
@@ -557,9 +547,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
   <div class="eiland-rooster" id="eilandRooster"></div>
 </div>
 
-<!-- ============================================================
-     BELONINGS WINKEL
-============================================================ -->
+<!-- WINKEL -->
 <div id="winkel-skerm" class="skerm">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
     <button class="btn-terug" onclick="naTuis()">← Terug</button>
@@ -572,9 +560,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
   <div class="winkel-rooster" id="winkelRooster"></div>
 </div>
 
-<!-- ============================================================
-     KOEPONS
-============================================================ -->
+<!-- KOEPONS -->
 <div id="koepon-skerm" class="skerm">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
     <button class="btn-terug" onclick="naTuis()">← Terug</button>
@@ -585,9 +571,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
   <div class="kaart" style="margin-top:12px;font-size:12px;color:var(--grys);" id="koeponGeskiedenisBlok"></div>
 </div>
 
-<!-- ============================================================
-     ADMIN
-============================================================ -->
+<!-- ADMIN -->
 <div id="admin-skerm" class="skerm">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
     <button class="btn-terug" onclick="naTuis()">← Terug</button>
@@ -649,17 +633,13 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
   </div>
 </div>
 
-<!-- ============================================================
-     SERTIFIKAAT DRUK
-============================================================ -->
+<!-- SERTIFIKAAT / KOEPON DRUK -->
 <div id="sert-druk" style="display:none;position:fixed;inset:0;background:white;z-index:400;overflow:auto;padding:20px;">
   <button onclick="sluitSert()" style="position:fixed;top:12px;right:12px;background:var(--rooi);color:white;border:none;border-radius:50%;width:36px;height:36px;font-size:16px;cursor:pointer;">✕</button>
   <div id="sertBlokkie" style="max-width:680px;margin:auto;padding:36px;border:8px double var(--pers);font-family:Georgia,serif;text-align:center;"></div>
 </div>
 
-<!-- ============================================================
-     PIN LAAG
-============================================================ -->
+<!-- PIN LAAG -->
 <div class="pin-laag" id="pinLaag">
   <div class="pin-blk">
     <h3>🔒 Voer PIN in</h3>
@@ -672,18 +652,33 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--agtergrond);color:
   </div>
 </div>
 
-<!-- ============================================================
-     JAVASCRIPT – ALLE LOGIKA
-     (In toekomstige weergawe kan hierdie in aparte .js lêers
-      verdeel word, bv. data.js, spel.js, taal.js, admin.js)
-============================================================ -->
 <script>
 /* ============================================================
-   DATABASIS (localStorage – maklik later na Supabase/Firebase)
+   AVATARS
+============================================================ */
+var AVATARS = ["🦉","🐶","🦁","🐱","🐸","🦊","🐼","🦋","🐝","🦄","🚀","⭐","🌈","🎀","🏆"];
+var gekieseAvatar = "🦉";
+
+function renderAvatarKies(){
+  var r = document.getElementById("avatarKiesRooster");
+  if(!r) return;
+  r.innerHTML = AVATARS.map(function(a){
+    return "<div class='avatar-opsie"+(a===gekieseAvatar?" gekies":"")+"' onclick='kiesAvatar(\""+a+"\")'>"+a+"</div>";
+  }).join("");
+}
+function kiesAvatar(a){
+  gekieseAvatar = a;
+  document.getElementById("loginUilDisplay").textContent = a;
+  renderAvatarKies();
+}
+
+/* ============================================================
+   DATABASIS
 ============================================================ */
 var D = {
   pin:"1234", tydPerSig:10, sessieLen:10, wiskundeVlak:2, vermVlak:"2543",
   sigwoorde:[], spelwoorde:[], eieKoepons:[],
+  naam:"", avatar:"🦉",
   sterre:0, reeks:0, laasteDatum:"",
   medaljes:{brons:0,silwer:0,goud:0}, trofees:0, koeponKrediete:0,
   plakkers:[], prestasies:[], winkelBesit:["w_uil"],
@@ -691,13 +686,13 @@ var D = {
   normaleRondtes:0, baasWenne:0,
   eilandVord:{}, vordering:{}, geskiedenis:[], koeponGeskiedenis:[]
 };
+var ALLE_SPELERS = {};
 
 var G = {
   modus:"", vrae:[], indeks:0, telling:0, reeks:0,
   beantwoord:false, totaal:10, laasteTelling:0,
   medaljeToeken:false, laasteMedalje:null,
-  avontuurToeken:false, avontuurBeloning:null,
-  tydhouer:null
+  avontuurToeken:false, avontuurBeloning:null, tydhouer:null
 };
 var SIG = { indeks:0, tydhouer:null };
 var SPEL = { indeks:0 };
@@ -715,7 +710,6 @@ var VERSTEKETIKETS = {
 var LOFUITINGS = ["Briljant!","Pragtig!","Superster!","Fantasties!","Goeie werk!","Wauw!","Perfek!","Reg so!"];
 var AANMOEDIGINGS = ["Amper! Probeer weer!","Hou aan!","Jy kan dit doen!","Byna!"];
 
-/* ---- Vaste data ---- */
 var PLAKKER_DATA=[
   {id:"uil",emoji:"🦉",naam:"Slim Uil",seldsaam:false},{id:"reenboog",emoji:"🌈",naam:"Reenboog",seldsaam:false},
   {id:"raket",emoji:"🚀",naam:"Raket",seldsaam:false},{id:"hondjie",emoji:"🐶",naam:"Hondjie",seldsaam:false},
@@ -757,12 +751,85 @@ var KOEPON_DATA=[
 /* ============================================================
    STOOR & LAAI
 ============================================================ */
-function berg(){ try{ localStorage.setItem("llg2", JSON.stringify(D)); } catch(e){} }
+function berg(){
+  try{
+    ALLE_SPELERS[D.naam] = JSON.parse(JSON.stringify(D));
+    localStorage.setItem("speelslim_spelers", JSON.stringify(ALLE_SPELERS));
+    localStorage.setItem("speelslim_laaste", D.naam);
+  }catch(e){}
+}
 function laai(){
   try{
-    var r = localStorage.getItem("llg2");
-    if(r){ var p = JSON.parse(r); Object.keys(p).forEach(function(k){ D[k] = p[k]; }); }
-  } catch(e){}
+    var r = localStorage.getItem("speelslim_spelers");
+    if(r) ALLE_SPELERS = JSON.parse(r);
+    var laaste = localStorage.getItem("speelslim_laaste");
+    if(laaste && ALLE_SPELERS[laaste]){
+      Object.assign(D, ALLE_SPELERS[laaste]);
+    }
+  }catch(e){}
+}
+function laaiSpeler(naam){
+  if(ALLE_SPELERS[naam]){
+    Object.assign(D, JSON.parse(JSON.stringify(ALLE_SPELERS[naam])));
+  } else {
+    D.naam = naam;
+    D.avatar = gekieseAvatar;
+    D.sterre=0;D.reeks=0;D.laasteDatum="";
+    D.medaljes={brons:0,silwer:0,goud:0};D.trofees=0;D.koeponKrediete=0;
+    D.plakkers=[];D.prestasies=[];D.winkelBesit=["w_uil"];
+    D.aktieweAvatar=gekieseAvatar;D.aktieweTema="verstek";
+    D.normaleRondtes=0;D.baasWenne=0;
+    D.eilandVord={};D.vordering={};D.geskiedenis=[];D.koeponGeskiedenis=[];
+    D.eieKoepons=[];
+  }
+  D.naam = naam;
+  D.avatar = D.avatar || gekieseAvatar;
+}
+
+/* ============================================================
+   LOGIN
+============================================================ */
+function loginLeerder(){
+  var naam = document.getElementById("loginNaam").value.trim();
+  if(!naam){
+    document.getElementById("loginNaam").style.borderColor="var(--rooi)";
+    return;
+  }
+  laaiSpeler(naam);
+  D.naam = naam;
+  D.avatar = gekieseAvatar;
+  D.aktieweAvatar = gekieseAvatar;
+  berg();
+  document.getElementById("login-skerm").classList.add("weg");
+  naTuis();
+}
+function kiesBestaandeSpeler(naam){
+  var data = ALLE_SPELERS[naam];
+  if(data) gekieseAvatar = data.avatar || "🦉";
+  laaiSpeler(naam);
+  berg();
+  document.getElementById("login-skerm").classList.add("weg");
+  naTuis();
+}
+function wissel(){
+  berg();
+  document.getElementById("loginNaam").value="";
+  gekieseAvatar = "🦉";
+  renderAvatarKies();
+  document.getElementById("loginUilDisplay").textContent = "🦉";
+  document.getElementById("login-skerm").classList.remove("weg");
+  renderBestaandeSpelers();
+}
+function renderBestaandeSpelers(){
+  var name = Object.keys(ALLE_SPELERS||{});
+  var div = document.getElementById("bestaandeSpelers");
+  if(!div||!name.length){if(div)div.innerHTML="";return;}
+  var h = "<p>Of kies 'n bestaande speler:</p><div class='speler-knoppies'>";
+  name.forEach(function(n){
+    var av = (ALLE_SPELERS[n]||{}).avatar||"🦉";
+    h += "<button class='speler-chip' onclick='kiesBestaandeSpeler(\""+n.replace(/"/g,"&quot;")+"\")'>" + av + " " + n + "</button>";
+  });
+  div.innerHTML = h + "</div>";
 }
 
 /* ============================================================
@@ -773,7 +840,7 @@ function vandagSleutel(){ var d=new Date(); return d.getFullYear()+"-"+(d.getMon
 function weekSleutel(){ var d=new Date(),dag=d.getDay()||7; d.setDate(d.getDate()+4-dag); var jr=new Date(Date.UTC(d.getFullYear(),0,1)); return d.getFullYear()+"W"+String(Math.ceil((((d-jr)/86400000)+1)/7)).padStart(2,"0"); }
 function isDonderdag(){ return vandag()===4; }
 function isOefendag(){ var d=vandag(); return d>=1&&d<=4; }
-function huidigeVord(){ var wk=weekSleutel(); if(!D.vordering[wk])D.vordering[wk]={}; return D.vordering[wk]; }
+function huidigeVord(){ var wk=weekSleutel(); if(!D.vordering)D.vordering={}; if(!D.vordering[wk])D.vordering[wk]={}; return D.vordering[wk]; }
 function merkGedoen(sleutel){ huidigeVord()[sleutel]=vandagSleutel(); berg(); dateerStatus(); }
 function isGedoen(sleutel){ return !!huidigeVord()[sleutel]; }
 function dagIndeks(){ var d=vandag(); return d===0?1:Math.min(d,5); }
@@ -786,36 +853,37 @@ function wysSkerm(id){
   document.getElementById(id).classList.add("aktief");
   window.scrollTo(0,0);
 }
-
 function naTuis(){
   clearTimeout(G.tydhouer); clearTimeout(SIG.tydhouer);
+  if(!D.laasteDatum) D.laasteDatum="";
   var vandagDag = new Date().toDateString();
   if(D.laasteDatum !== vandagDag){
     var gister = new Date(); gister.setDate(gister.getDate()-1);
-    D.reeks = (D.laasteDatum === gister.toDateString()) ? D.reeks+1 : 1;
+    D.reeks = (D.laasteDatum === gister.toDateString()) ? (D.reeks||0)+1 : 1;
     D.laasteDatum = vandagDag; berg();
   }
   dateerWeekKal(); dateerStatus();
-  document.getElementById("sb-sterre").textContent = D.sterre;
-  document.getElementById("sb-reeks").textContent = D.reeks;
+  document.getElementById("sb-sterre").textContent = D.sterre||0;
+  document.getElementById("sb-reeks").textContent = D.reeks||0;
   document.getElementById("sb-medaljes").textContent = totaalMedaljes();
   document.getElementById("sb-trofees").textContent = D.trofees||0;
   document.getElementById("dagPil").textContent = DAG_VOLLEDIG[vandag()]||"";
+  var nav = document.getElementById("navAvatar");
+  if(nav) nav.textContent = D.avatar||"🦉";
   var bb=document.getElementById("kaart-baas"), bk=document.getElementById("baas-kenteken");
   if(bb){ if(baasOop()){bb.classList.remove("geblokkeer");if(bk)bk.textContent="Oopgesluit!";}
     else{bb.classList.add("geblokkeer");if(bk)bk.textContent=rondtesTotBaas()+" rondtes oor";} }
   wysSkerm("tuis-skerm");
 }
-
 function dateerWeekKal(){
   var kal=document.getElementById("weekKal"); if(!kal)return;
-  var deesdae=new Date(), vanDag=vandag();
+  var deesdae=new Date(),vanDag=vandag();
   var maandag=new Date(deesdae); maandag.setDate(deesdae.getDate()-(vanDag===0?6:vanDag-1));
   var dae=["Ma","Di","Wo","Do","Vr"]; var v=huidigeVord(); var h="";
   for(var i=0;i<5;i++){
     var d=new Date(maandag); d.setDate(maandag.getDate()+i);
-    var isVandag=d.toDateString()===deesdae.toDateString(), dagIdx=i+1;
-    var sigG=!!v["sig_"+dagIdx], spelG=!!v["spel_"+dagIdx], isToets=dagIdx===4;
+    var isVandag=d.toDateString()===deesdae.toDateString(),dagIdx=i+1;
+    var sigG=!!v["sig_"+dagIdx],spelG=!!v["spel_"+dagIdx],isToets=dagIdx===4;
     var kls="dag-blk";
     if(isVandag)kls+=" aktief-dag"; else if(isToets)kls+=" toets-dag"; else if(sigG&&spelG)kls+=" gedoen";
     var ikoon=isToets?"📝":(sigG&&spelG?"✅":(sigG||spelG?"🔄":"○"));
@@ -829,19 +897,18 @@ function dateerWeekKal(){
     else kn.innerHTML="<div class='kennisgewing info'>ℹ️ Naweek – geen oefening nodig nie.</div>";
   }
 }
-
 function dateerStatus(){
   var idx=dagIndeks();
-  var sigG=isGedoen("sig_"+idx), spelG=isGedoen("spel_"+idx), toetsG=isGedoen("toets");
-  var sd=document.getElementById("sig-dot"), st=document.getElementById("sig-status");
-  if(sd){sd.className="dot"+(sigG?" klaar":" vandag"); if(st)st.textContent=sigG?"Vandag gedoen ✓":"Nie gedoen";}
-  var spd=document.getElementById("spel-dot"), spt=document.getElementById("spel-status");
-  if(spd){spd.className="dot"+(spelG?" klaar":" vandag"); if(spt)spt.textContent=spelG?"Vandag gedoen ✓":"Nie gedoen";}
-  var td=document.getElementById("toets-dot"), tt=document.getElementById("toets-status"), tk=document.getElementById("kaart-toets");
+  var sigG=isGedoen("sig_"+idx),spelG=isGedoen("spel_"+idx),toetsG=isGedoen("toets");
+  var sd=document.getElementById("sig-dot"),st=document.getElementById("sig-status");
+  if(sd){sd.className="dot"+(sigG?" klaar":" vandag");if(st)st.textContent=sigG?"Vandag gedoen ✓":"Nie gedoen";}
+  var spd=document.getElementById("spel-dot"),spt=document.getElementById("spel-status");
+  if(spd){spd.className="dot"+(spelG?" klaar":" vandag");if(spt)spt.textContent=spelG?"Vandag gedoen ✓":"Nie gedoen";}
+  var td=document.getElementById("toets-dot"),tt=document.getElementById("toets-status"),tk=document.getElementById("kaart-toets");
   if(td){
-    if(toetsG){td.className="dot klaar"; if(tt)tt.textContent="Toets gedoen ✓"; if(tk)tk.classList.add("geblokkeer");}
-    else if(isDonderdag()){td.className="dot vandag"; if(tt)tt.textContent="Gereed – doen vandag!"; if(tk)tk.classList.remove("geblokkeer");}
-    else{td.className="dot"; if(tt)tt.textContent="Slegs Donderdae"; if(tk)tk.classList.add("geblokkeer");}
+    if(toetsG){td.className="dot klaar";if(tt)tt.textContent="Toets gedoen ✓";if(tk)tk.classList.add("geblokkeer");}
+    else if(isDonderdag()){td.className="dot vandag";if(tt)tt.textContent="Gereed – doen vandag!";if(tk)tk.classList.remove("geblokkeer");}
+    else{td.className="dot";if(tt)tt.textContent="Slegs Donderdae";if(tk)tk.classList.add("geblokkeer");}
   }
 }
 
@@ -849,35 +916,36 @@ function dateerStatus(){
    SIGWOORDE
 ============================================================ */
 function beginSigwoorde(){
-  if(!D.sigwoorde.length){alert("Geen sigwoorde nie. Voeg eers woorde by by Ouer/Juffrou.");return;}
+  if(!D.sigwoorde||!D.sigwoorde.length){alert("Geen sigwoorde nie. Voeg eers woorde by by Ouer/Juffrou.");return;}
   SIG.indeks=0; clearTimeout(SIG.tydhouer);
   wysSkerm("sigwoord-skerm"); renderSigWoord(); beginSigTyd();
 }
 function renderSigWoord(){
-  var w=D.sigwoorde; if(!w.length)return;
+  var w=D.sigwoorde; if(!w||!w.length)return;
   document.getElementById("sigWoord").textContent=w[SIG.indeks];
   document.getElementById("sigProg").textContent=(SIG.indeks+1)+"/"+w.length;
-  var h=""; for(var i=0;i<w.length;i++){var kls="sig-dot"+(i===SIG.indeks?" aktief":i<SIG.indeks?" klaar":""); h+="<div class='"+kls+"'></div>";} document.getElementById("sigDots").innerHTML=h;
+  var h=""; for(var i=0;i<w.length;i++){var kls="sig-dot"+(i===SIG.indeks?" aktief":i<SIG.indeks?" klaar":"");h+="<div class='"+kls+"'></div>";}
+  document.getElementById("sigDots").innerHTML=h;
 }
 function beginSigTyd(){
   clearTimeout(SIG.tydhouer);
   var sek=D.tydPerSig||10, vul=document.getElementById("sigTydVul");
   vul.style.transition="none"; vul.style.width="100%";
-  setTimeout(function(){ vul.style.transition="width "+sek+"s linear"; vul.style.width="0%"; },50);
-  SIG.tydhouer=setTimeout(sigVolgende, sek*1000);
+  setTimeout(function(){vul.style.transition="width "+sek+"s linear";vul.style.width="0%";},50);
+  SIG.tydhouer=setTimeout(sigVolgende,sek*1000);
 }
 function sigVolgende(){
   clearTimeout(SIG.tydhouer);
-  if(SIG.indeks<D.sigwoorde.length-1){ SIG.indeks++; renderSigWoord(); beginSigTyd(); }
-  else{ merkGedoen("sig_"+dagIndeks()); alert("🎉 Baie goed! Al die sigwoorde is gelees."); naTuis(); }
+  if(SIG.indeks<D.sigwoorde.length-1){SIG.indeks++;renderSigWoord();beginSigTyd();}
+  else{merkGedoen("sig_"+dagIndeks());alert("🎉 Baie goed! Al die sigwoorde is gelees.");naTuis();}
 }
-function sigVorige(){ clearTimeout(SIG.tydhouer); if(SIG.indeks>0){SIG.indeks--;renderSigWoord();beginSigTyd();} }
+function sigVorige(){clearTimeout(SIG.tydhouer);if(SIG.indeks>0){SIG.indeks--;renderSigWoord();beginSigTyd();}}
 
 /* ============================================================
    SPELWOORD OEFENING
 ============================================================ */
 function beginSpelOefening(){
-  if(!D.spelwoorde.length){alert("Geen spelwoorde nie. Voeg eers woorde by by Ouer/Juffrou.");return;}
+  if(!D.spelwoorde||!D.spelwoorde.length){alert("Geen spelwoorde nie. Voeg eers woorde by by Ouer/Juffrou.");return;}
   SPEL.indeks=0; wysSkerm("spel-oefen-skerm"); renderSpelOefening();
 }
 function renderSpelOefening(){
@@ -889,11 +957,11 @@ function renderSpelOefening(){
     document.getElementById("spelOefeningKnpRy").innerHTML="<button class='knp p vol' onclick='naTuis()'>🏠 Klaar – Gaan Terug</button>";
     return;
   }
-  var item=w[SPEL.indeks], woord=item.woord, weglaat=item.weglaat||[], prentjie=item.prentjie||null;
+  var item=w[SPEL.indeks],woord=item.woord,weglaat=item.weglaat||[],prentjie=item.prentjie||null;
   var prentH=prentjie?"<img src='"+prentjie+"' style='width:80px;height:80px;border-radius:12px;object-fit:cover;border:2px solid var(--rand);' alt='"+woord+"'>":"<div style='width:80px;height:80px;border-radius:12px;background:var(--sagte);border:2px dashed var(--pers-mid);display:flex;align-items:center;justify-content:center;font-size:28px;'>📚</div>";
   var letH="";
   for(var i=0;i<woord.length;i++){
-    if(weglaat.indexOf(i)!==-1) letH+="<div class='sp-invoer-hou' id='sp-hou-"+i+"'><input type='text' maxlength='1' data-idx='"+i+"' id='sp-in-"+i+"' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' oninput=\"skuifSp(this)\"></div>";
+    if(weglaat.indexOf(i)!==-1)letH+="<div class='sp-invoer-hou' id='sp-hou-"+i+"'><input type='text' maxlength='1' data-idx='"+i+"' id='sp-in-"+i+"' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' oninput=\"skuifSp(this)\"></div>";
     else letH+="<div class='sp-letter'>"+woord[i]+"</div>";
   }
   document.getElementById("spelOefeningInhoud").innerHTML=
@@ -903,21 +971,21 @@ function renderSpelOefening(){
     "<div class='spel-letter-ry'>"+letH+"</div>"+
     "<div class='spel-terugvoer' id='spelOefTv'></div></div>";
   document.getElementById("spelOefeningKnpRy").innerHTML="<button class='knp p' onclick='kontroleerSpelOef()'>✓ Kyk</button><button class='knp s' onclick='spelVolgende()'>Volgende →</button>";
-  if(weglaat.length>0){var ee=document.getElementById("sp-in-"+weglaat[0]); if(ee)setTimeout(function(){ee.focus();},80);}
+  if(weglaat.length>0){var ee=document.getElementById("sp-in-"+weglaat[0]);if(ee)setTimeout(function(){ee.focus();},80);}
 }
 function skuifSp(inp){
   if((inp.value||"").length===1){
-    var idx=parseInt(inp.getAttribute("data-idx")), item=D.spelwoorde[SPEL.indeks], w=item.weglaat||[];
-    var pos=w.indexOf(idx);
-    if(pos!==-1&&pos<w.length-1){var vInp=document.getElementById("sp-in-"+w[pos+1]); if(vInp)vInp.focus();}
+    var idx=parseInt(inp.getAttribute("data-idx")),item=D.spelwoorde[SPEL.indeks],wl=item.weglaat||[];
+    var pos=wl.indexOf(idx);
+    if(pos!==-1&&pos<wl.length-1){var vInp=document.getElementById("sp-in-"+wl[pos+1]);if(vInp)vInp.focus();}
   }
 }
 function kontroleerSpelOef(){
-  var item=D.spelwoorde[SPEL.indeks], woord=item.woord, weglaat=item.weglaat||[], allesK=true;
+  var item=D.spelwoorde[SPEL.indeks],woord=item.woord,weglaat=item.weglaat||[],allesK=true;
   for(var i=0;i<weglaat.length;i++){
-    var idx=weglaat[i], inp=document.getElementById("sp-in-"+idx), hou=document.getElementById("sp-hou-"+idx);
+    var idx=weglaat[i],inp=document.getElementById("sp-in-"+idx),hou=document.getElementById("sp-hou-"+idx);
     if(!inp)continue;
-    var inv=(inp.value||"").toLowerCase().trim(), kl=woord[idx].toLowerCase();
+    var inv=(inp.value||"").toLowerCase().trim(),kl=woord[idx].toLowerCase();
     if(inv===kl){if(hou)hou.classList.add("korrek");}
     else{if(hou){hou.classList.remove("korrek");hou.classList.add("verkeerd");}allesK=false;}
   }
@@ -925,14 +993,14 @@ function kontroleerSpelOef(){
   if(allesK){tv.textContent="✓ Uitstekend! Die woord is '"+woord+"'";tv.className="spel-terugvoer goed";setTimeout(spelVolgende,1100);}
   else{tv.textContent="✗ Probeer weer – die woord is '"+woord+"'";tv.className="spel-terugvoer sleg";}
 }
-function spelVolgende(){ SPEL.indeks++; renderSpelOefening(); }
+function spelVolgende(){SPEL.indeks++;renderSpelOefening();}
 
 /* ============================================================
    DONDERDAG TOETS
 ============================================================ */
 function beginToets(){
   if(!isDonderdag()){alert("Die toets is slegs op Donderdae beskikbaar.");return;}
-  if(!D.spelwoorde.length){alert("Geen spelwoorde nie.");return;}
+  if(!D.spelwoorde||!D.spelwoorde.length){alert("Geen spelwoorde nie.");return;}
   TOETS.ingedien=false; wysSkerm("toets-skerm");
   document.getElementById("toetsVordTeks").textContent=D.spelwoorde.length+" woorde";
   var h="";
@@ -943,7 +1011,7 @@ function beginToets(){
   });
   document.getElementById("toetsInhoud").innerHTML=h;
   document.getElementById("toetsKnpRy").style.display="flex";
-  setTimeout(function(){var e=document.getElementById("t-in-0"); if(e)e.focus();},80);
+  setTimeout(function(){var e=document.getElementById("t-in-0");if(e)e.focus();},80);
 }
 function tVolgende(inp){
   var v=inp.value;
@@ -955,23 +1023,23 @@ function tVolgende(inp){
 }
 function sluitToetAf(){
   if(TOETS.ingedien)return;
-  var korrek=0, res=[];
+  var korrek=0,res=[];
   D.spelwoorde.forEach(function(item,i){
-    var inp=document.getElementById("t-in-"+i), inv=(inp?inp.value:"").trim().toLowerCase(), kw=item.woord.toLowerCase(), ok=inv===kw;
+    var inp=document.getElementById("t-in-"+i),inv=(inp?inp.value:"").trim().toLowerCase(),kw=item.woord.toLowerCase(),ok=inv===kw;
     if(ok)korrek++;
-    res.push({woord:item.woord, ingevoer:inp?inp.value.trim():"", korrek:ok});
-    if(inp){inp.disabled=true; inp.classList.add(ok?"korrek":"verkeerd");}
+    res.push({woord:item.woord,ingevoer:inp?inp.value.trim():"",korrek:ok});
+    if(inp){inp.disabled=true;inp.classList.add(ok?"korrek":"verkeerd");}
     var tv=document.getElementById("t-tv-"+i);
-    if(tv){tv.textContent=ok?"✓ Korrek":"✗ Die woord is '"+item.woord+"'"; tv.className="toets-tv "+(ok?"goed":"sleg");}
+    if(tv){tv.textContent=ok?"✓ Korrek":"✗ Die woord is '"+item.woord+"'";tv.className="toets-tv "+(ok?"goed":"sleg");}
   });
-  TOETS.ingedien=true; TOETS.resultate=res; TOETS.korrek=korrek;
+  TOETS.ingedien=true;TOETS.resultate=res;TOETS.korrek=korrek;
   document.getElementById("toetsKnpRy").innerHTML="<button class='knp p vol' onclick='wysToetsUitslae()'>Wys Uitslae →</button>";
   merkGedoen("toets");
 }
 function wysToetsUitslae(){
-  var korrek=TOETS.korrek, totaal=D.spelwoorde.length, pst=Math.round(korrek/totaal*100);
+  var korrek=TOETS.korrek,totaal=D.spelwoorde.length,pst=Math.round(korrek/totaal*100);
   var emoji,opskrif,boodskap;
-  if(pst===100){emoji="🥇";opskrif="Perfek! Briljant!";boodskap="Jy het alles reg gespel – gereed vir Vrydag!";}
+  if(pst===100){emoji="🥇";opskrif="Perfek, "+D.naam+"!";boodskap="Jy het alles reg gespel – gereed vir Vrydag!";}
   else if(pst>=80){emoji="🎉";opskrif="Uitstekend!";boodskap=pst+"% – net nog bietjie. Oefen die foute.";}
   else if(pst>=60){emoji="💪";opskrif="Goeie poging!";boodskap=pst+"% – oefen die moeiliker woorde nog 'n bietjie.";}
   else{emoji="📚";opskrif="Hou aan oefen!";boodskap=pst+"% – moenie moed verloor nie, oefen elke dag.";}
@@ -989,7 +1057,9 @@ function wysToetsUitslae(){
       "</div>";
   });
   document.getElementById("uitslaeWoordLys").innerHTML=h;
-  var sk=document.getElementById("sertKnp"); if(sk)sk.disabled=pst<70;
+  var is10 = korrek===totaal&&totaal>0;
+  var sd=document.getElementById("sertDrukKnp"),ss=document.getElementById("sertStoorKnp"),sb=document.getElementById("sert-boodskap");
+  if(sd)sd.disabled=!is10; if(ss)ss.disabled=!is10; if(sb)sb.style.display=is10?"block":"none";
   wysSkerm("uitslae-skerm");
 }
 
@@ -999,7 +1069,7 @@ function wysToetsUitslae(){
 function w(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
 function k(lys){return lys[Math.floor(Math.random()*lys.length)];}
 function s(lys){return lys.slice().sort(function(){return Math.random()-.5;});}
-function eenmalig(lys){var seen={},u=[];(lys||[]).forEach(function(x){var key=String(x).toLowerCase();if(!seen[key]){seen[key]=1;u.push(String(x));}}); return u;}
+function eenmalig(lys){var seen={},u=[];(lys||[]).forEach(function(x){var key=String(x).toLowerCase();if(!seen[key]){seen[key]=1;u.push(String(x));}});return u;}
 function skoonNouer(v){return String(v==null?"":v).trim().toLowerCase().replace(/\s/g,"").replace(/,/g,".");}
 function vulLeemte(korrek,lys){var u=eenmalig([korrek].concat(lys||[]));while(u.length<4){u.push(String(w(1,99)));u=eenmalig(u);}return s(u).slice(0,4);}
 function fmtR(c){if(c<100)return c+"c";if(c%100===0)return"R"+(c/100);return"R"+Math.floor(c/100)+"."+(c%100<10?"0":"")+(c%100);}
@@ -1036,8 +1106,8 @@ function maakVraag(modus){
   else if(modus==="geld"){
     var munte=[{w:5,cls:"c5",lb:"5c"},{w:10,cls:"c10",lb:"10c"},{w:20,cls:"c20",lb:"20c"},{w:50,cls:"c50",lb:"50c"},{w:100,cls:"r1",lb:"R1"},{w:200,cls:"r2",lb:"R2"},{w:500,cls:"r5",lb:"R5"}];
     var note=[{w:1000,cls:"r10",lb:"R10"},{w:2000,cls:"r20",lb:"R20"},{w:5000,cls:"r50",lb:"R50"}];
-    var alles=munte.concat(note); var t5=w(1,3);
-    if(t5===1){var item=k(alles);v.sub="identifiseer";v.item=item;v.antwoord=item.lb;v.keuses=vulLeemte(item.lb,s(alles.filter(function(c){return c.lb!==item.lb;})).slice(0,3).map(function(c){return c.lb;}));v.etiket="Watter munt of noot is dit?";}
+    var alles=munte.concat(note);var t5=w(1,3);
+    if(t5===1){var item2=k(alles);v.sub="identifiseer";v.item=item2;v.antwoord=item2.lb;v.keuses=vulLeemte(item2.lb,s(alles.filter(function(c){return c.lb!==item2.lb;})).slice(0,3).map(function(c){return c.lb;}));v.etiket="Watter munt of noot is dit?";}
     else if(t5===2){var cs=s(munte).slice(0,w(2,4));var tot5=cs.reduce(function(x,c){return x+c.w;},0);v.sub="totaal";v.munte=cs;v.antwoord=fmtR(tot5);v.keuses=vulLeemte(fmtR(tot5),[fmtR(tot5+10),fmtR(Math.max(5,tot5-10)),fmtR(tot5+50)]);v.etiket="Hoeveel geld in totaal?";}
     else{var pr=w(1,15)*5,pd=pr+k([5,10,20,50]);v.sub="kleingeld";v.pr=pr;v.pd=pd;v.antwoord=fmtR(pd-pr);v.keuses=vulLeemte(fmtR(pd-pr),[fmtR(pd-pr+5),fmtR(Math.max(0,pd-pr-5)),fmtR(pd-pr+10)]);v.etiket="Prys: "+fmtR(pr)+". Jy betaal: "+fmtR(pd)+". Kleingeld?";}
   }
@@ -1049,7 +1119,7 @@ function maakVraag(modus){
   else if(modus==="pat"){
     var t6=w(1,2);
     if(t6===1){var sp2=k([2,3,4,5,10]),st2=w(0,4)*sp2;var sq=[st2,st2+sp2,st2+sp2*2,st2+sp2*3];var nx=st2+sp2*4;v.sub="getalpat";v.sq=sq;v.antwoord=String(nx);v.keuses=vulLeemte(String(nx),[String(nx+sp2),String(Math.max(0,nx-sp2)),String(nx+1)]);v.etiket="Wat kom volgende?";}
-    else{var kl=["🔴","🔵","🟡","🟢","🟠"],pl=w(2,3);var pt=s(kl).slice(0,pl);var sq2=pt.concat(pt).concat(pt.slice(0,w(1,pl)));var an2=pt[sq2.length%pl];v.sub="kleurpat";v.sq2=sq2;v.antwoord=an2;var op2=s(kl.slice(0,4));if(op2.indexOf(an2)===-1)op2[0]=an2;v.keuses=s(op2);v.etiket="Watter vorm kom volgende?";}
+    else{var kl2=["🔴","🔵","🟡","🟢","🟠"],pl=w(2,3);var pt=s(kl2).slice(0,pl);var sq2=pt.concat(pt).concat(pt.slice(0,w(1,pl)));var an2=pt[sq2.length%pl];v.sub="kleurpat";v.sq2=sq2;v.antwoord=an2;var op2=s(kl2.slice(0,4));if(op2.indexOf(an2)===-1)op2[0]=an2;v.keuses=s(op2);v.etiket="Watter vorm kom volgende?";}
   }
   else if(modus==="vorms"){
     var v2d=[{naam:"Sirkel",sye:0,beskr:"Rond, geen sye",emoji:"⭕"},{naam:"Driehoek",sye:3,beskr:"3 reguit sye",emoji:"🔺"},{naam:"Vierkant",sye:4,beskr:"4 gelyke sye",emoji:"⬜"},{naam:"Reghoek",sye:4,beskr:"4 sye, 2 langer",emoji:"▬"}];
@@ -1067,8 +1137,8 @@ function maakVraag(modus){
     else{v.sub="brdele";v.br=br;v.antwoord=String(br.d);v.keuses=vulLeemte(String(br.d),["2","3","4","5"]);v.etiket="In hoeveel dele is dit verdeel?";}
   }
   else if(modus==="woordsom"){
-    var name=["Sara","Thabo","Emma","Liam","Ayanda","Pieter"],items2=["appels","lekkers","blomme","boeke","munte","sterre"];
-    var n1=w(2,15),n2=w(1,n1),nm1=k(name),nm2=k(name.filter(function(x){return x!==nm1;})),it=k(items2);
+    var name2=["Sara","Thabo","Emma","Liam","Ayanda","Pieter"],items2=["appels","lekkers","blomme","boeke","munte","sterre"];
+    var n1=w(2,15),n2=w(1,n1),nm1=k(name2),nm2=k(name2.filter(function(x){return x!==nm1;})),it=k(items2);
     var t9=w(1,4);
     if(t9===1){v.sub="wplus";v.antwoord=String(n1+n2);v.teks=nm1+" het "+n1+" "+it+". "+nm2+" gee nog "+n2+" "+it+". Hoeveel het sy nou?";v.keuses=vulLeemte(String(n1+n2),[String(n1-n2),String(n1*2),String(n2+5)]);}
     else if(t9===2){var tot9=n1+n2;v.sub="wminus";v.antwoord=String(tot9-n2);v.teks=nm1+" het "+tot9+" "+it+". Hy gee "+n2+" weg. Hoeveel bly oor?";v.keuses=vulLeemte(String(tot9-n2),[String(tot9+n2),String(n2),String(tot9)]);}
@@ -1089,7 +1159,7 @@ function maakVraag(modus){
 }
 
 /* ============================================================
-   WISKUNDE HTML BOULEER
+   WISKUNDE HTML
 ============================================================ */
 function bouwKeuses(lys){
   lys=eenmalig(lys).slice(0,4);
@@ -1158,29 +1228,28 @@ function beginModus(modus){
   G.totaal=D.sessieLen||10;G.vrae=[];
   var gesien={};
   for(var i=0;i<G.totaal;i++){
-    for(var p=0;p<200;p++){var v=maakVraag(modus),key=JSON.stringify(v);if(!gesien[key]){gesien[key]=true;G.vrae.push(v);break;}}
+    for(var p=0;p<200;p++){var vv=maakVraag(modus),key=JSON.stringify(vv);if(!gesien[key]){gesien[key]=true;G.vrae.push(vv);break;}}
   }
   G.totaal=Math.max(1,G.vrae.length);
   document.getElementById("spelTelling").textContent="0";
   document.getElementById("spelTotaal").textContent=G.totaal;
   document.getElementById("spelEtiket").textContent=VERSTEKETIKETS[modus]||modus;
   document.getElementById("reeksBadge").style.display="none";
-  wysSkerm("spel-skerm"); renderVraag();
+  wysSkerm("spel-skerm");renderVraag();
 }
-
 function beginDagUitdaging(){
   G.modus="dag";G.indeks=0;G.telling=0;G.reeks=0;G.beantwoord=false;
   G.medaljeToeken=false;G.laasteMedalje=null;G.avontuurToeken=false;G.avontuurBeloning=null;
   G.totaal=D.sessieLen||10;G.vrae=[];
   var modusse=["tel","optel","plek","geld","tyd","pat","vorms","breuke","woordsom","verm"];
-  if(D.sigwoorde.length)modusse.push("flits");
-  if(D.spelwoorde.length)modusse.push("spel","ontbr");
+  if(D.sigwoorde&&D.sigwoorde.length)modusse.push("flits");
+  if(D.spelwoorde&&D.spelwoorde.length)modusse.push("spel","ontbr");
   var gesien={};
   for(var i=0;i<G.totaal;i++){
     for(var p=0;p<300;p++){
       var m=k(modusse),v2;
       if(m==="flits")v2={tipe:"flits",woord:k(D.sigwoorde),antwoord:k(D.sigwoorde),etiket:"Ken jy hierdie woord?"};
-      else if(m==="spel"||m==="ontbr"){var lys=D.spelwoorde.length?D.spelwoorde:[];if(!lys.length)continue;var wo=k(lys);v2={tipe:m,woord:wo.woord,antwoord:wo.woord,etiket:""};}
+      else if(m==="spel"||m==="ontbr"){if(!D.spelwoorde||!D.spelwoorde.length)continue;var wo=k(D.spelwoorde);v2={tipe:m,woord:wo.woord,antwoord:wo.woord,etiket:""};}
       else v2=maakVraag(m);
       var key=JSON.stringify(v2);
       if(!gesien[key]){gesien[key]=true;G.vrae.push(v2);break;}
@@ -1191,57 +1260,51 @@ function beginDagUitdaging(){
   document.getElementById("spelTotaal").textContent=G.totaal;
   document.getElementById("spelEtiket").textContent=VERSTEKETIKETS.dag;
   document.getElementById("reeksBadge").style.display="none";
-  wysSkerm("spel-skerm"); renderVraag();
+  wysSkerm("spel-skerm");renderVraag();
 }
-
 function beginBaas(){
   if(!baasOop()){alert("Nog "+rondtesTotBaas()+" gewone rondte(s) nodig.");return;}
   G.modus="baas";G.indeks=0;G.telling=0;G.reeks=0;G.beantwoord=false;
   G.medaljeToeken=false;G.laasteMedalje=null;G.avontuurToeken=false;G.avontuurBeloning=null;
   G.totaal=12;G.vrae=[];
   var modusse=["tel","optel","plek","geld","tyd","pat","vorms","breuke","woordsom","verm"];
-  if(D.sigwoorde.length)modusse.push("flits");
+  if(D.sigwoorde&&D.sigwoorde.length)modusse.push("flits");
   var gesien={};
   for(var i=0;i<G.totaal;i++){
-    for(var p=0;p<300;p++){var v=maakVraag(k(modusse)),key=JSON.stringify(v);if(!gesien[key]){gesien[key]=true;G.vrae.push(v);break;}}
+    for(var p=0;p<300;p++){var vv=maakVraag(k(modusse)),key=JSON.stringify(vv);if(!gesien[key]){gesien[key]=true;G.vrae.push(vv);break;}}
   }
   G.totaal=Math.max(1,G.vrae.length);
   document.getElementById("spelTelling").textContent="0";
   document.getElementById("spelTotaal").textContent=G.totaal;
   document.getElementById("spelEtiket").textContent=VERSTEKETIKETS.baas;
   document.getElementById("reeksBadge").style.display="none";
-  wysSkerm("spel-skerm"); renderVraag();
+  wysSkerm("spel-skerm");renderVraag();
 }
-
 function renderVraag(){
   clearTimeout(G.tydhouer);
   if(!G.vrae[G.indeks]){wysUitslae();return;}
   document.getElementById("spelVordVul").style.width=(G.indeks/G.totaal*100)+"%";
   document.getElementById("spelTerugvoer").textContent="";
   G.beantwoord=false;
-  var v=G.vrae[G.indeks]; G.antwoord=v.antwoord;
-  document.getElementById("vraagBlokkie").innerHTML=bouwHTML(v);
+  var vv=G.vrae[G.indeks];G.antwoord=vv.antwoord;
+  document.getElementById("vraagBlokkie").innerHTML=bouwHTML(vv);
   setTimeout(function(){var inp=document.getElementById("ainv");if(inp){inp.focus();inp.onkeydown=function(e){if(e.key==="Enter")kontroleerTik();};}},60);
 }
 function kontroleerTik(){
   if(G.beantwoord)return;
   var inp=document.getElementById("ainv");if(!inp)return;
-  var v=inp.value.trim();
-  var korrek=skoonNouer(v)===skoonNouer(G.antwoord);
+  var vv=inp.value.trim();
+  var korrek=skoonNouer(vv)===skoonNouer(G.antwoord);
   G.beantwoord=true;
   if(korrek){inp.classList.add("korrek");goed();}else{inp.classList.add("verkeerd");sleg("Antwoord: "+G.antwoord);}
   G.tydhouer=setTimeout(volgendeVraag,1300);
 }
 function kontroleerKeuse(knp){
   if(G.beantwoord)return;
-  var v=knp.getAttribute("data-w");
+  var vv=knp.getAttribute("data-w");
   G.beantwoord=true;
-  if(skoonNouer(v)===skoonNouer(G.antwoord)){knp.classList.add("ok");goed();}
-  else{
-    knp.classList.add("nee");
-    document.querySelectorAll(".keuse").forEach(function(kk){if(skoonNouer(kk.getAttribute("data-w"))===skoonNouer(G.antwoord))kk.classList.add("ok");});
-    sleg("");
-  }
+  if(skoonNouer(vv)===skoonNouer(G.antwoord)){knp.classList.add("ok");goed();}
+  else{knp.classList.add("nee");document.querySelectorAll(".keuse").forEach(function(kk){if(skoonNouer(kk.getAttribute("data-w"))===skoonNouer(G.antwoord))kk.classList.add("ok");});sleg("");}
   G.tydhouer=setTimeout(volgendeVraag,1200);
 }
 function merkFlits(geken){
@@ -1265,17 +1328,18 @@ function volgendeVraag(){clearTimeout(G.tydhouer);G.indeks++;if(G.indeks>=G.tota
 /* ============================================================
    MEDALJES & BELONINGS
 ============================================================ */
-function totaalMedaljes(){return(D.medaljes.brons||0)+(D.medaljes.silwer||0)+(D.medaljes.goud||0);}
+function totaalMedaljes(){return(D.medaljes&&D.medaljes.brons?D.medaljes.brons:0)+(D.medaljes&&D.medaljes.silwer?D.medaljes.silwer:0)+(D.medaljes&&D.medaljes.goud?D.medaljes.goud:0);}
 function medaljeVirPst(pst){if(pst>=90)return{sleutel:"goud",naam:"Goue medalje",ikoon:"🥇"};if(pst>=80)return{sleutel:"silwer",naam:"Silwer medalje",ikoon:"🥈"};if(pst>=70)return{sleutel:"brons",naam:"Brons medalje",ikoon:"🥉"};return null;}
 function kenMedaljeRad(pst){
   if(G.medaljeToeken)return G.laasteMedalje||null;
   var m=medaljeVirPst(pst);G.medaljeToeken=true;G.laasteMedalje=m;
-  if(m){D.medaljes[m.sleutel]=(D.medaljes[m.sleutel]||0)+1;voegPrest("Eerste medalje",totaalMedaljes()===1);voegPrest("Perfekte rondte",pst===100);voegPrest("Goue brein",m.sleutel==="goud");}
+  if(m){if(!D.medaljes)D.medaljes={brons:0,silwer:0,goud:0};D.medaljes[m.sleutel]=(D.medaljes[m.sleutel]||0)+1;voegPrest("Eerste medalje",totaalMedaljes()===1);voegPrest("Perfekte rondte",pst===100);voegPrest("Goue brein",m.sleutel==="goud");}
   return m;
 }
 function voegPrest(naam,v){if(!v)return;if(!D.prestasies)D.prestasies=[];if(D.prestasies.indexOf(naam)===-1)D.prestasies.push(naam);}
 function plakkerNaId(id){return PLAKKER_DATA.filter(function(p){return p.id===id;})[0]||null;}
 function ontsluitPlakker(voorkeur){
+  if(!D.plakkers)D.plakkers=[];
   var beskikbaar=PLAKKER_DATA.filter(function(p){return D.plakkers.indexOf(p.id)===-1;});
   if(!beskikbaar.length)return null;
   var pl=voorkeur?plakkerNaId(voorkeur):null;
@@ -1306,25 +1370,29 @@ function konfetti(){
   for(var i=0;i<50;i++){(function(){var c=document.createElement("div");c.className="konfetti-stuk";c.style.cssText="left:"+(Math.random()*100)+"vw;background:"+kl[Math.floor(Math.random()*kl.length)]+";animation-duration:"+(1.5+Math.random()*2)+"s;animation-delay:"+(Math.random()*.4)+"s;";document.body.appendChild(c);setTimeout(function(){if(c.parentNode)c.parentNode.removeChild(c);},3500);})();}
 }
 function weekEtiket(){var d=new Date(Date.UTC(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()));var dag=d.getUTCDay()||7;d.setUTCDate(d.getUTCDate()+4-dag);var jr=new Date(Date.UTC(d.getUTCFullYear(),0,1));return d.getUTCFullYear()+"W"+String(Math.ceil((((d-jr)/86400000)+1)/7)).padStart(2,"0");}
+
 function wysUitslae(){
   clearTimeout(G.tydhouer);
-  D.sterre+=G.telling;G.laasteTelling=G.telling;
+  D.sterre=(D.sterre||0)+G.telling;G.laasteTelling=G.telling;
+  if(!D.vordering)D.vordering={};
   var wk=weekEtiket(),pst=Math.round(G.telling/G.totaal*100);
   var m=kenMedaljeRad(pst);
   var b=pasAvontuurToe(pst);
   if(!D.vordering[wk])D.vordering[wk]={};
   D.vordering[wk][G.modus]={pst:Math.max(((D.vordering[wk][G.modus]||{pst:0}).pst),pst),telling:G.telling,totaal:G.totaal};
+  if(!D.geskiedenis)D.geskiedenis=[];
   D.geskiedenis.push({datum:new Date().toISOString(),modus:G.modus,telling:G.telling,totaal:G.totaal,pst:pst});
   if(D.geskiedenis.length>120)D.geskiedenis=D.geskiedenis.slice(-120);
   berg();
   if(pst>=70)konfetti();
   var p=G.telling/G.totaal,emoji,opskrif,boodskap;
-  if(p===1){emoji="🥇";opskrif="Perfek!";boodskap="100%! Absoluut briljant.";}
-  else if(p>=.9){emoji="🥇";opskrif="Uitstekend!";boodskap=pst+"% – goue medalje energie!";}
-  else if(p>=.8){emoji="🥈";opskrif="Silwer werk!";boodskap=pst+"% – net nog bietjie en dis goud.";}
-  else if(p>=.7){emoji="🥉";opskrif="Brons verdien!";boodskap=pst+"% – mooi so, hou aan oefen.";}
-  else if(p>=.6){emoji="⭐";opskrif="Goeie poging!";boodskap=pst+"% – kry 70% vir 'n medalje.";}
-  else{emoji="💪";opskrif="Hou aan!";boodskap=pst+"% – jy leer elke dag meer.";}
+  var av=D.avatar||"🦉";
+  if(p===1){emoji="🥇";opskrif="Perfek, "+D.naam+"! "+av;boodskap="100%! Jy is 'n ware superster! Sertifikaat ontsluit! 🌟";}
+  else if(p>=.9){emoji="🥇";opskrif="Uitstekend, "+D.naam+"!";boodskap=pst+"% – goue medalje energie!";}
+  else if(p>=.8){emoji="🥈";opskrif="Silwer werk, "+D.naam+"!";boodskap=pst+"% – net nog bietjie en dis goud.";}
+  else if(p>=.7){emoji="🥉";opskrif="Brons verdien, "+D.naam+"!";boodskap=pst+"% – mooi so, hou aan oefen.";}
+  else if(p>=.6){emoji="⭐";opskrif="Goeie poging, "+D.naam+"!";boodskap=pst+"% – kry 70% vir 'n medalje.";}
+  else{emoji="💪";opskrif="Hou aan, "+D.naam+"!";boodskap=pst+"% – jy leer elke dag meer.";}
   document.getElementById("uitslaeEmoji").textContent=emoji;
   document.getElementById("uitslaeOpskrif").textContent=opskrif;
   document.getElementById("uitslaeBoodskap").textContent=boodskap;
@@ -1337,33 +1405,46 @@ function wysUitslae(){
   if(!m&&pst<70)mH="<span style='font-size:13px;color:var(--grys);'>Kry 70% of meer vir 'n medalje en plakker.</span>";
   document.getElementById("medaljeUitslae").innerHTML=mH;
   document.getElementById("uitslaeWoordLys").innerHTML="";
-  var sk=document.getElementById("sertKnp");if(sk)sk.disabled=pst<70;
+  var is10=G.telling===G.totaal&&G.totaal>0;
+  var sd=document.getElementById("sertDrukKnp"),ss=document.getElementById("sertStoorKnp"),sb=document.getElementById("sert-boodskap");
+  if(sd)sd.disabled=!is10; if(ss)ss.disabled=!is10;
+  if(sb)sb.style.display=is10?"block":"none";
   wysSkerm("uitslae-skerm");
 }
 
 /* ============================================================
-   SERTIFIKAAT
+   SERTIFIKAAT (slegs 10/10)
 ============================================================ */
-function drukSert(){
-  var pst=Math.round((G.laasteTelling||G.telling||0)/(G.totaal||1)*100);
-  if(pst<70){alert("Sertifikaat sluit oop vanaf 70%.");return;}
+function bouwSertHTML(){
   var d=new Date().toLocaleDateString("af-ZA",{year:"numeric",month:"long",day:"numeric"});
-  var m=medaljeVirPst(pst);
-  var st="";for(var i=0;i<Math.min(G.laasteTelling||G.telling||0,10);i++)st+="⭐";
-  document.getElementById("sertBlokkie").innerHTML=
-    "<div style='font-size:44pt;margin-bottom:6px;'>"+(m?m.ikoon:"🏅")+"</div>"+
+  var telling=G.laasteTelling||G.telling||0;
+  var av=D.avatar||"🦉";
+  var st="";for(var i=0;i<telling;i++)st+="⭐";
+  return "<div style='font-size:54pt;margin-bottom:4px;'>🥇</div>"+
     "<h1 style='font-size:22pt;color:#6c47d9;margin-bottom:4px;'>Sertifikaat van Prestasie</h1>"+
     "<p style='font-size:11pt;color:#888;margin:4px 0;'>Hiermee word erken dat</p>"+
-    "<h2 style='font-size:24pt;color:#8767d7;margin:6px 0;'>Leerder</h2>"+
+    "<div style='font-size:48pt;margin:6px 0;'>"+av+"</div>"+
+    "<h2 style='font-size:28pt;color:#1e1b4b;margin:4px 0;'>"+D.naam+"</h2>"+
     "<p style='font-size:12pt;margin:4px 0;'>uitstekende werk gelewer het in</p>"+
-    "<p style='font-size:14pt;font-weight:bold;color:#6c47d9;margin:6px 0;'>"+(VERSTEKETIKETS[G.modus]||G.modus)+"</p>"+
+    "<p style='font-size:15pt;font-weight:bold;color:#6c47d9;margin:8px 0;'>"+(VERSTEKETIKETS[G.modus]||G.modus)+"</p>"+
     "<div style='font-size:24pt;margin:8px 0;'>"+st+"</div>"+
-    "<p style='font-size:15pt;font-weight:bold;color:#dc2626;'>"+pst+"% behaal</p>"+
-    (m?"<p style='font-size:13pt;color:#ca8a04;margin:6px 0;'>"+m.ikoon+" "+m.naam+"</p>":"")+
-    "<p style='font-size:10pt;color:#888;margin-top:12px;'>"+d+"</p>"+
-    "<div style='margin-top:22px;display:flex;justify-content:space-around;'><div style='border-top:1px solid #ccc;padding-top:5px;font-size:9pt;color:#888;min-width:100px;'>Onderwyser / Ouer</div><div style='border-top:1px solid #ccc;padding-top:5px;font-size:9pt;color:#888;min-width:100px;'>Datum: "+d+"</div></div>";
+    "<p style='font-size:20pt;font-weight:bold;color:#16a34a;margin:6px 0;'>10 uit 10 – PERFEK! 🌟</p>"+
+    "<p style='font-size:13pt;color:#ca8a04;margin:4px 0;'>🥇 Goue Medalje Verdien</p>"+
+    "<p style='font-size:10pt;color:#888;margin-top:14px;'>"+d+"</p>"+
+    "<div style='margin-top:24px;display:flex;justify-content:space-around;'>"+
+    "<div style='border-top:1px solid #ccc;padding-top:5px;font-size:9pt;color:#888;min-width:120px;'>Onderwyser / Ouer</div>"+
+    "<div style='border-top:1px solid #ccc;padding-top:5px;font-size:9pt;color:#888;min-width:120px;'>Datum: "+d+"</div></div>";
+}
+function drukSert(){
+  document.getElementById("sertBlokkie").innerHTML=bouwSertHTML();
   document.getElementById("sert-druk").style.display="block";
   setTimeout(function(){window.print();},200);
+}
+function stoorSertPdf(){
+  document.getElementById("sertBlokkie").innerHTML=bouwSertHTML();
+  document.getElementById("sert-druk").style.display="block";
+  alert("Die drukvenster gaan nou oop.\n\nKies 'Stoor as PDF' (of 'Save as PDF') as die drukker om die sertifikaat as PDF te stoor.");
+  setTimeout(function(){window.print();},300);
 }
 function sluitSert(){document.getElementById("sert-druk").style.display="none";}
 
@@ -1371,14 +1452,15 @@ function sluitSert(){document.getElementById("sert-druk").style.display="none";}
    VORDERING
 ============================================================ */
 function wysVordering(){
-  var ts=(D.geskiedenis||[]).length;
+  if(!D.geskiedenis)D.geskiedenis=[];
+  var ts=D.geskiedenis.length;
   var gem=ts?Math.round((D.geskiedenis.reduce(function(a,b){return a+(b.pst||0);},0))/ts):0;
   var beste=ts?Math.max.apply(null,D.geskiedenis.map(function(x){return x.pst||0;})):0;
   var h="<div style='display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;'>"+
-    "<div style='background:var(--pers-lig);border-radius:12px;padding:10px;text-align:center;'><strong style='font-size:20px;color:var(--pers);display:block;'>"+D.sterre+"</strong><span style='font-size:10px;color:var(--grys);'>Sterre</span></div>"+
+    "<div style='background:var(--pers-lig);border-radius:12px;padding:10px;text-align:center;'><strong style='font-size:20px;color:var(--pers);display:block;'>"+(D.sterre||0)+"</strong><span style='font-size:10px;color:var(--grys);'>Sterre</span></div>"+
     "<div style='background:var(--groen-lig);border-radius:12px;padding:10px;text-align:center;'><strong style='font-size:20px;color:var(--groen);display:block;'>"+gem+"%</strong><span style='font-size:10px;color:var(--grys);'>Gemiddeld</span></div>"+
     "<div style='background:var(--geel-lig);border-radius:12px;padding:10px;text-align:center;'><strong style='font-size:20px;color:var(--geel);display:block;'>"+beste+"%</strong><span style='font-size:10px;color:var(--grys);'>Beste</span></div></div>";
-  if(!D.geskiedenis||!D.geskiedenis.length)h+="<p style='color:var(--grys);font-size:13px;padding:8px 0;'>Nog geen vordering nie.</p>";
+  if(!ts)h+="<p style='color:var(--grys);font-size:13px;padding:8px 0;'>Nog geen vordering nie.</p>";
   else{
     D.geskiedenis.slice().reverse().slice(0,20).forEach(function(p){
       h+="<div style='display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--rand);'>"+
@@ -1397,9 +1479,9 @@ function wysVordering(){
 ============================================================ */
 function wysMedaljes(){
   var totaal=totaalMedaljes();
-  document.getElementById("bronsGetal").textContent=D.medaljes.brons||0;
-  document.getElementById("silwerGetal").textContent=D.medaljes.silwer||0;
-  document.getElementById("goudGetal").textContent=D.medaljes.goud||0;
+  document.getElementById("bronsGetal").textContent=D.medaljes&&D.medaljes.brons?D.medaljes.brons:0;
+  document.getElementById("silwerGetal").textContent=D.medaljes&&D.medaljes.silwer?D.medaljes.silwer:0;
+  document.getElementById("goudGetal").textContent=D.medaljes&&D.medaljes.goud?D.medaljes.goud:0;
   document.getElementById("trofeeGetal").textContent=D.trofees||0;
   var vord=Math.min(10,totaal%10||(totaal>=10?10:0));
   document.getElementById("medaljeBalkVul").style.width=Math.round(vord/10*100)+"%";
@@ -1423,6 +1505,7 @@ function ruilTrofee(){
    PLAKKER ALBUM
 ============================================================ */
 function wysPlakkerAlbum(){
+  if(!D.plakkers)D.plakkers=[];
   var getal=D.plakkers.length;
   document.getElementById("plakkerGetal").textContent=getal;
   document.getElementById("plakkerPst").textContent=Math.round(getal/PLAKKER_DATA.length*100)+"%";
@@ -1443,9 +1526,9 @@ function wysAvontuurKaart(){
   document.getElementById("baasRondtes").textContent=rondtesTotBaas();
   document.getElementById("baasWenneKaart").textContent=D.baasWenne||0;
   document.getElementById("kaartTrofees").textContent=D.trofees||0;
-  document.getElementById("kaartPlakkers").textContent=D.plakkers.length;
+  document.getElementById("kaartPlakkers").textContent=(D.plakkers||[]).length;
   var gereed=baasOop();
-  document.getElementById("baasPanelBoodskap").textContent=gereed?"Die Wenner Rondte is oop! Kry 80%+ vir 'n Superbrein badge.":"Nog "+rondtesTotBaas()+" gewone rondte(s) nodig om die Wenner Rondte oop te sluit.";
+  document.getElementById("baasPanelBoodskap").textContent=gereed?"Die Wenner Rondte is oop! Kry 80%+ vir 'n Superbrein badge.":"Nog "+rondtesTotBaas()+" gewone rondte(s) nodig.";
   document.getElementById("baasBeginKnp").disabled=!gereed;
   document.getElementById("eilandRooster").innerHTML=EILAND_DATA.map(function(eiland){
     var r=D.eilandVord[eiland.modus]||{spele:0,beste:0};
@@ -1464,14 +1547,14 @@ function itemToegerus(item){if(item.tipe==="avatar")return D.aktieweAvatar===ite
 function koopOfGebruik(itemId){
   var item=WINKEL_ITEMS.filter(function(i){return i.id===itemId;})[0];if(!item)return;
   if(item.tipe==="pak"){
-    if(D.sterre<item.koste){alert("Nog nie genoeg sterre nie.");return;}
+    if((D.sterre||0)<item.koste){alert("Nog nie genoeg sterre nie.");return;}
     D.sterre-=item.koste;var a=ontsluitPlakker(),b=ontsluitPlakker();berg();
     alert("Plakkerpak oopgemaak! "+(a?a.emoji+" "+a.naam:"")+(b?" en "+b.emoji+" "+b.naam:""));
     wysBeloningsWinkel();return;
   }
   if(!itemBesit(item.id)){
-    if(D.sterre<item.koste){alert("Nog nie genoeg sterre nie.");return;}
-    D.sterre-=item.koste;D.winkelBesit.push(item.id);voegPrest("Slim koper",true);
+    if((D.sterre||0)<item.koste){alert("Nog nie genoeg sterre nie.");return;}
+    D.sterre-=item.koste;if(!D.winkelBesit)D.winkelBesit=[];D.winkelBesit.push(item.id);voegPrest("Slim koper",true);
   }
   if(item.tipe==="avatar")D.aktieweAvatar=item.waarde;
   if(item.tipe==="tema")D.aktieweTema=item.waarde;
@@ -1489,22 +1572,27 @@ function wysBeloningsWinkel(){
 }
 
 /* ============================================================
-   KOEPONS (standaard + eie)
+   KOEPONS
 ============================================================ */
 function alleKoepons(){
   var eie=(D.eieKoepons||[]).map(function(kp){return{id:"eie_"+kp.id,ikoon:kp.ikoon,titel:kp.titel,beskr:kp.beskr,eie:true};});
   return KOEPON_DATA.concat(eie);
 }
 function wysKoepons(){
-  document.getElementById("koeponBoodskap").textContent=(D.koeponKrediete||0)>0?"Kies 'n koepon en druk dit. Een koepon gebruik een krediet.":"Verdien eers 'n trofee om 'n koeponkrediet oop te sluit.";
+  document.getElementById("koeponBoodskap").textContent=(D.koeponKrediete||0)>0?"Kies 'n koepon en druk dit of stoor as PDF. Een koepon gebruik een krediet.":"Verdien eers 'n trofee om 'n koeponkrediet oop te sluit.";
   document.getElementById("koeponRooster").innerHTML=alleKoepons().map(function(kp){
-    return"<div class='koepon-kaart'><div class='k-ikoon'>"+kp.ikoon+"</div><h3>"+kp.titel+"</h3><p>"+kp.beskr+"</p><button class='knp p' onclick=\"drukKoepon('"+kp.id+"')\" "+((D.koeponKrediete||0)<=0?"disabled":"")+">🎟️ Druk koepon</button></div>";
+    var geblokkeer=(D.koeponKrediete||0)<=0;
+    return"<div class='koepon-kaart'><div class='k-ikoon'>"+kp.ikoon+"</div><h3>"+kp.titel+"</h3><p>"+kp.beskr+"</p>"+
+      "<div style='display:flex;gap:6px;flex-wrap:wrap;'>"+
+      "<button class='knp p' style='flex:1;' onclick=\"drukKoepon('"+kp.id+"','druk')\" "+(geblokkeer?"disabled":"")+">🖨️ Druk</button>"+
+      "<button class='knp s' style='flex:1;' onclick=\"drukKoepon('"+kp.id+"','pdf')\" "+(geblokkeer?"disabled":"")+">💾 PDF</button>"+
+      "</div></div>";
   }).join("");
   var geskied=(D.koeponGeskiedenis||[]).slice(-5).reverse();
   document.getElementById("koeponGeskiedenisBlok").innerHTML=geskied.length?"<strong>Onlangse koepons:</strong><br>"+geskied.map(function(kk){return"🎟️ "+kk.titel+" – "+new Date(kk.datum).toLocaleDateString("af-ZA");}).join("<br>"):"Nog geen koepons gedruk nie.";
   wysSkerm("koepon-skerm");
 }
-function drukKoepon(id){
+function drukKoepon(id, tipe){
   if((D.koeponKrediete||0)<=0){alert("Geen koeponkrediete nie.");return;}
   var kp=alleKoepons().filter(function(x){return x.id===id;})[0];if(!kp)return;
   if(!confirm("Gebruik 1 koeponkrediet vir: "+kp.titel+"?"))return;
@@ -1513,11 +1601,13 @@ function drukKoepon(id){
   D.koeponGeskiedenis.push({id:kp.id,titel:kp.titel,datum:new Date().toISOString()});
   voegPrest("Koepon koning",true);berg();
   var d=new Date().toLocaleDateString("af-ZA",{year:"numeric",month:"long",day:"numeric"});
+  var av=D.avatar||"🦉";
   document.getElementById("sertBlokkie").innerHTML=
     "<div style='border:5px dashed #c084fc;border-radius:20px;padding:24px;font-family:Georgia,serif;'>"+
     "<div style='font-size:44pt;'>"+kp.ikoon+"</div>"+
     "<h1 style='font-size:22pt;color:#4b3f96;margin:6px 0;'>Beloningskoepon</h1>"+
-    "<h2 style='font-size:18pt;color:#6c47d9;margin:6px 0;'>Leerder</h2>"+
+    "<div style='font-size:36pt;margin:4px 0;'>"+av+"</div>"+
+    "<h2 style='font-size:20pt;color:#6c47d9;margin:4px 0;'>"+D.naam+"</h2>"+
     "<h2 style='font-size:16pt;color:#db2777;margin:10px 0;'>"+kp.titel+"</h2>"+
     "<p style='font-size:11pt;color:#555;'>"+kp.beskr+"</p>"+
     "<p style='font-size:9pt;color:#777;margin-top:14px;'>Gedruk op "+d+"</p>"+
@@ -1525,6 +1615,9 @@ function drukKoepon(id){
     "<div style='border-top:1px solid #999;padding-top:5px;font-size:9pt;color:#555;min-width:120px;'>Ouer handtekening</div>"+
     "<div style='border-top:1px solid #999;padding-top:5px;font-size:9pt;color:#555;min-width:120px;'>Gebruik teen datum</div></div></div>";
   document.getElementById("sert-druk").style.display="block";
+  if(tipe==="pdf"){
+    alert("Die drukvenster gaan nou oop.\n\nKies 'Stoor as PDF' om die koepon as PDF te stoor.");
+  }
   window.onafterprint=function(){document.getElementById("sert-druk").style.display="none";wysKoepons();};
   setTimeout(function(){window.print();},200);
 }
@@ -1572,9 +1665,7 @@ function renderAdmin(){
   document.getElementById("sessieLen").value=D.sessieLen||10;
   document.getElementById("wiskundeVlak").value=D.wiskundeVlak||2;
   document.getElementById("vermVlak").value=D.vermVlak||"2543";
-  renderSwChips();
-  renderSpelAdmin();
-  renderEieKoepons();
+  renderSwChips();renderSpelAdmin();renderEieKoepons();
 }
 function stelTyd(s2){D.tydPerSig=s2;berg();renderAdmin();}
 function renderSwChips(){
@@ -1585,14 +1676,15 @@ function renderSwChips(){
 function voegSwBy(){
   var wo=document.getElementById("nuweSwInv").value.trim().toLowerCase();
   if(!wo)return;
+  if(!D.sigwoorde)D.sigwoorde=[];
   if(D.sigwoorde.indexOf(wo)===-1)D.sigwoorde.push(wo);
   document.getElementById("nuweSwInv").value="";
   berg();renderSwChips();
 }
-function verwyder_sw(i){D.sigwoorde.splice(i,1);berg();renderSwChips();}
+function verwyder_sw(i){if(D.sigwoorde)D.sigwoorde.splice(i,1);berg();renderSwChips();}
 function renderSpelAdmin(){
   var h="";
-  if(!D.spelwoorde.length){h="<p style='font-size:12px;color:var(--grys);padding:8px 0;'>Geen spelwoorde bygevoeg nie.</p>";}
+  if(!D.spelwoorde||!D.spelwoorde.length){h="<p style='font-size:12px;color:var(--grys);padding:8px 0;'>Geen spelwoorde bygevoeg nie.</p>";}
   else D.spelwoorde.forEach(function(item,i){
     var lkH="";
     for(var li=0;li<item.woord.length;li++){
@@ -1620,11 +1712,12 @@ function wisselWeglaat(wi,li){
 function voegSpBy(){
   var wo=document.getElementById("nuweSpInv").value.trim().toLowerCase();
   if(!wo)return;
+  if(!D.spelwoorde)D.spelwoorde=[];
   if(!D.spelwoorde.find(function(i){return i.woord===wo;}))D.spelwoorde.push({woord:wo,weglaat:[],prentjie:null});
   document.getElementById("nuweSpInv").value="";
   berg();renderSpelAdmin();
 }
-function verwyder_sp(i){D.spelwoorde.splice(i,1);berg();renderSpelAdmin();}
+function verwyder_sp(i){if(D.spelwoorde)D.spelwoorde.splice(i,1);berg();renderSpelAdmin();}
 function laaiPrentjie(event,i){
   var l=event.target.files[0];if(!l)return;
   var r=new FileReader();
@@ -1650,9 +1743,9 @@ function verwyder_koepon(id){
 }
 function renderEieKoepons(){
   var lys=document.getElementById("eieKoeponLys");if(!lys)return;
-  var items=D.eieKoepons||[];
-  if(!items.length){lys.innerHTML="<p style='font-size:12px;color:var(--grys);'>Geen eie koepons bygevoeg nie.</p>";return;}
-  lys.innerHTML=items.map(function(kp){
+  var items2=D.eieKoepons||[];
+  if(!items2.length){lys.innerHTML="<p style='font-size:12px;color:var(--grys);'>Geen eie koepons bygevoeg nie.</p>";return;}
+  lys.innerHTML=items2.map(function(kp){
     return"<div style='display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--rand);'>"+
       "<span style='font-size:18px;'>"+kp.ikoon+"</span>"+
       "<div style='flex:1;'><div style='font-size:13px;font-weight:700;'>"+kp.titel+"</div><div style='font-size:11px;color:var(--grys);'>"+kp.beskr+"</div></div>"+
@@ -1680,7 +1773,8 @@ function stoorAdmin(){
 ============================================================ */
 document.addEventListener("keydown",function(e){
   if(e.key!=="Enter")return;
-  var si=document.getElementById("nuweSwInv"),sp=document.getElementById("nuweSpInv"),pi=document.getElementById("pinInv");
+  var si=document.getElementById("nuweSwInv"),sp=document.getElementById("nuweSpInv"),pi=document.getElementById("pinInv"),ln=document.getElementById("loginNaam");
+  if(document.activeElement===ln){e.preventDefault();loginLeerder();}
   if(document.activeElement===si&&si&&si.value.trim()){e.preventDefault();voegSwBy();}
   if(document.activeElement===sp&&sp&&sp.value.trim()){e.preventDefault();voegSpBy();}
   if(document.activeElement===pi){e.preventDefault();kontroleerPin();}
@@ -1690,7 +1784,8 @@ document.addEventListener("keydown",function(e){
    BEGIN
 ============================================================ */
 laai();
-naTuis();
+renderAvatarKies();
+renderBestaandeSpelers();
 </script>
 </body>
 </html>
