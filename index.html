@@ -1658,7 +1658,7 @@ function kontroleerPin(){
   else{document.getElementById("pinFout").textContent="Verkeerde PIN – probeer weer.";}
 }
 function renderAdmin(){
-  var keuses=[5,10,15,20,30];
+  var keuses=[1,1.5,5,10];
   document.getElementById("tydKiesRy").innerHTML=keuses.map(function(s2){
     return"<button onclick='stelTyd("+s2+")' style='padding:7px 14px;border-radius:8px;border:2px solid "+(D.tydPerSig===s2?"var(--pers)":"var(--rand)")+";background:"+(D.tydPerSig===s2?"var(--pers-lig)":"white")+";color:"+(D.tydPerSig===s2?"var(--pers)":"var(--ink)")+";font-size:13px;font-weight:700;cursor:pointer;'>"+s2+" sek</button>";
   }).join("");
